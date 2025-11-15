@@ -1,5 +1,11 @@
 import { prisma } from "@/database";
 import Link from "next/link";
+import { Suspense } from "react";
+
+function Loader() {
+  return <h3>Loading...</h3>
+}
+
 
 export default async function Home() {
   const blocks = await prisma.block.findMany();
@@ -22,9 +28,9 @@ export default async function Home() {
             No blocks yet. Create one to get started!
           </p>
         ) : (
-          <ul className="space-y-3">
+          <ul className="space-y-3 mx-auto">
             {blocks.map((block) => (
-              <li key={block.id}>
+              <li className="py-3" key={block.id}>
                 <Link
                   key={block.id}
                   className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition"
