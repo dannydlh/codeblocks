@@ -1,6 +1,7 @@
 import { prisma } from "@/database";
 import Link from "next/link";
 import { Suspense } from "react";
+import { cookies } from "next/headers";
 
 function Loader() {
   return <h3>Loading...</h3>
@@ -8,10 +9,15 @@ function Loader() {
 
 
 export default async function Home() {
-  const blocks = await prisma.block.findMany();
+  const userId = (await cookies()).get("user_id");
+  const blocks = await prisma.block.findMany({
+    where: {userId: Number(userId)}
+  });
+
+  
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
+    <main className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-2xl mx-auto">
         <header className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-semibold text-gray-800">Code Blocks</h1>
@@ -28,7 +34,7 @@ export default async function Home() {
             No blocks yet. Create one to get started!
           </p>
         ) : (
-          <ul className="space-y-3 mx-auto">
+          <ul className="space-y-3 space-x-3 mx-auto flex">
             {blocks.map((block) => (
               <li className="py-3" key={block.id}>
                 <Link

@@ -33,14 +33,17 @@ export default function EditBlockForm({ block }: Props) {
         value={newCode}
         onChange={(e) => setNewCode(e.target.value)}
       />
-      <Link 
-        href={`/blocks/${block.id}`} 
-        className="inline-block px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
-        >Cancel
-      </Link>
-      <button type="submit" className="cursor-pointer inline-block px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">
-        Save
-      </button>
+      <div className="flex justify-evenly">
+        <Link 
+          href={`/blocks/${block.id}`} 
+          className="px-10 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
+          >Cancel
+        </Link>
+
+        <button type="submit" className=" cursor-pointer px-10 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">
+          Save
+        </button>
+      </div>
     </form>
   );
 }

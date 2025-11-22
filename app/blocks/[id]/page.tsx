@@ -19,7 +19,7 @@ export default async function ViewBlock( { params }: Props ) {
 
   if (!block) return notFound();
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
+    <main className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-2xl mx-auto">
         <header className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-semibold text-gray-800">{block.title}</h1>
@@ -28,15 +28,17 @@ export default async function ViewBlock( { params }: Props ) {
           <div>
             <form action={deleteBlock}>
               <input type="hidden" name="id" value={block.id} />
-              <textarea placeholder="Block of code" className="w-full p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" readOnly value={block.code}>
+              <textarea placeholder="Block of code" className="bg-gray-200 w-full p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" readOnly value={block.code}>
               </textarea>
-              <button 
-                type="submit"
-                className="cursor-pointer inline-block px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition">
-                  Delete
-            </button>
+              <div className="flex justify-evenly py-3">
+                <button 
+                  type="submit"
+                  className="cursor-pointer inline-block px-10 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition">
+                    Delete
+                </button>
+                <a href={`/blocks/${id}/edit`} className="inline-block px-10 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">Edit</a>
+              </div>
             </form>
-            <Link href={`/blocks/${id}/edit`} className="inline-block px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">Edit</Link>
           </div>
         </div>
       </main>

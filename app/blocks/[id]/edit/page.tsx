@@ -17,7 +17,7 @@ export default async function EditBlock( { params }: Props) {
 
   return ( 
       <>
-      <main className="min-h-screen bg-gray-50 p-8">
+      <main className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-2xl mx-auto">
         <header className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-semibold text-gray-800">Edit Block</h1>
