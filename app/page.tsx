@@ -2,22 +2,29 @@ import { prisma } from "@/database";
 import Link from "next/link";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
-
-function Loader() {
-  return <h3>Loading...</h3>
-}
+import { redirect } from "next/navigation";
 
 
 export default async function Home() {
-  const userId = (await cookies()).get("user_id");
-  const blocks = await prisma.block.findMany({
-    where: {userId: Number(userId)}
-  });
-
-  
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("user_id")?.value;
+  if (!userId) {
+    redirect("/login");
+  }
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
+    <Suspense fallback={<SkeletonBlocks />}>
+      <BlocksList userId={userId} />
+    </Suspense>
+  );
+}
+
+async function BlocksList({ userId }: any) {
+  const blocks = await prisma.block.findMany({
+    where: { userId: Number(userId) },
+  });
+  return (
+    <main className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-2xl mx-auto">
         <header className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-semibold text-gray-800">Code Blocks</h1>
@@ -34,20 +41,41 @@ export default async function Home() {
             No blocks yet. Create one to get started!
           </p>
         ) : (
-          <ul className="space-y-3 space-x-3 mx-auto flex">
+          <ul className="space-y-3">
             {blocks.map((block) => (
-              <li className="py-3" key={block.id}>
-                <Link
-                  key={block.id}
-                  className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition"
-                  href={`/blocks/${block.id}`}
-                >
-                  <span className="text-gray-800 font-medium">{block.title}</span>
-                </Link>
+              <li
+                key={block.id}
+                className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition"
+              >
+                <span className="text-gray-800 font-medium">
+                  <Link href={`/blocks/${block.id}`}>{block.title}</Link>
+                </span>
               </li>
             ))}
           </ul>
         )}
+      </div>
+    </main>
+  );
+}
+
+function SkeletonBlocks() {
+  return (
+    <main className="min-h-screen bg-gray-50 p-8 animate-pulse">
+      <div className="max-w-2xl mx-auto">
+        {/* Header skeleton */}
+        <header className="flex items-center justify-between mb-8">
+          <div className="h-10 w-32 bg-gray-300 rounded-lg"></div>
+        </header>
+
+        {/* List skeleton */}
+        <ul className="space-y-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <li key={i} className="p-4 bg-white rounded-lg shadow-sm">
+              <div className="h-5 w-48 bg-gray-300 rounded"></div>
+            </li>
+          ))}
+        </ul>
       </div>
     </main>
   );

@@ -1,7 +1,14 @@
 import Link from "next/link";
 import { createBlock } from "@/api";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function CreateBlock() {
+export default async function CreateBlock() {
+    const cookieStore = await cookies();
+    const userId = cookieStore.get("user_id")?.value;
+    if (!userId) {
+      redirect("/login");
+    }
 
   return (
     <main className="min-h-screen bg-gray-50 p-8">
@@ -12,7 +19,7 @@ export default function CreateBlock() {
         </header>
         <div>
           <form action={createBlock}>
-
+              <input type="hidden" name="userId" value={userId} />
               <input type="text" name="title" placeholder="Block Title" className="w-full p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
 
             <textarea name="code" placeholder="your code goes here..." className="w-full p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
