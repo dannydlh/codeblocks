@@ -3,6 +3,7 @@ import { prisma } from "@/database";
 import { notFound, redirect } from 'next/navigation';
 import { deleteBlock } from "@/api";
 import { cookies } from "next/headers";
+import { CodeEditor } from "@/components/ui/CodeEditor";
 
 type Props = {
   params: {
@@ -35,8 +36,7 @@ export default async function ViewBlock( { params }: Props ) {
           <div>
             <form action={deleteBlock}>
               <input type="hidden" name="id" value={block.id} />
-              <textarea placeholder="Block of code" className="bg-gray-200 w-full p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" readOnly value={block.code}>
-              </textarea>
+                <CodeEditor code={block.code} />
               <div className="flex justify-evenly py-3">
                 <button 
                   type="submit"
@@ -48,6 +48,7 @@ export default async function ViewBlock( { params }: Props ) {
             </form>
           </div>
         </div>
+        
       </main>
   );
 }

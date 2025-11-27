@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { CodeEditor } from "../components/ui/CodeEditor";
 
 type Props = {
   userId: string;
@@ -36,6 +37,7 @@ async function BlocksList({ userId }: Props) {
       <div className="max-w-2xl mx-auto">
         <header className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-semibold text-gray-800">Code Blocks</h1>
+          <button type="submit">Log Out </button>
           <Link
             href="/blocks/create"
             className="inline-block px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition"
