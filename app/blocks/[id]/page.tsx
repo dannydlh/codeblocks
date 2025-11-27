@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/database";
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { deleteBlock } from "@/api";
+import { cookies } from "next/headers";
 
 type Props = {
   params: {
@@ -10,6 +11,12 @@ type Props = {
 }
 
 export default async function ViewBlock( { params }: Props ) {
+
+      const cookieStore = await cookies();
+      const userId = cookieStore.get("user_id")?.value;
+      if (!userId) {
+        redirect("/login");
+      }
 
   const { id } = await params;
 

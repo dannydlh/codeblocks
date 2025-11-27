@@ -4,12 +4,19 @@ import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+type Props = {
+  userId: string;
+}
 
 export default async function Home() {
   const cookieStore = await cookies();
   const userId = cookieStore.get("user_id")?.value;
   if (!userId) {
     redirect("/login");
+  }
+
+  const handleLogOut = (e: React.FormEvent) => {
+    cookieStore.delete(userId);
   }
 
   return (
@@ -19,10 +26,11 @@ export default async function Home() {
   );
 }
 
-async function BlocksList({ userId }: any) {
+async function BlocksList({ userId }: Props) {
   const blocks = await prisma.block.findMany({
     where: { userId: Number(userId) },
   });
+
   return (
     <main className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-2xl mx-auto">
@@ -65,6 +73,7 @@ function SkeletonBlocks() {
       <div className="max-w-2xl mx-auto">
         {/* Header skeleton */}
         <header className="flex items-center justify-between mb-8">
+          <div className="h-8 w-40 bg-gray-300 rounded"></div>
           <div className="h-10 w-32 bg-gray-300 rounded-lg"></div>
         </header>
 

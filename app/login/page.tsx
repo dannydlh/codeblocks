@@ -4,8 +4,6 @@ import { handleLogin } from "@/api";
 
 
 export default async function LoginPage( ) {
-/*   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState(""); */
 
   return (
     <div className="flex items-center justify-center h-screen">
