@@ -1,7 +1,7 @@
 import { prisma } from "@/database";
-import EditBlockForm from "./EditBlockForm";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import EditBlockForm from "@/components/ui/EditBlockForm";
 
 type Props = {
   params: {
@@ -12,11 +12,11 @@ type Props = {
 
 export default async function EditBlock( { params }: Props) {
 
-        const cookieStore = await cookies();
-        const userId = cookieStore.get("user_id")?.value;
-        if (!userId) {
-          redirect("/login");
-        }
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("user_id")?.value;
+  if (!userId) {
+    redirect("/login");
+  }
 
   const { id } = await params;
   const block = await prisma.block.findUnique({

@@ -1,24 +1,26 @@
 "use client"
-import { useState } from "react";
 import Editor from '@monaco-editor/react';
 
 type Props = {
   code: string;
+  handleEditorValue?: (value: string | undefined) => void;
+  readOnly?: boolean;
 }
 
-export function CodeEditor( {code}: Props ) {
+export function CodeEditor( {code, handleEditorValue, readOnly = false}: Props ) {
 
-  function handleEditorChange(value:any, event:any) {
-    console.log('here is the current model value:', value);
+  function handleEditorChange(value: string | undefined, event: any) {
+    handleEditorValue?.(value);
   }
 
   return (
     <Editor
       height="20vh"
-      width="70vh"
       defaultLanguage="javascript"
       defaultValue={code}
       onChange={handleEditorChange}
+      theme="vs-dark"
+      options={{readOnly}}
     />
   );
 }

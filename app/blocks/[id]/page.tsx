@@ -13,11 +13,11 @@ type Props = {
 
 export default async function ViewBlock( { params }: Props ) {
 
-      const cookieStore = await cookies();
-      const userId = cookieStore.get("user_id")?.value;
-      if (!userId) {
-        redirect("/login");
-      }
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("user_id")?.value;
+  if (!userId) {
+    redirect("/login");
+  }
 
   const { id } = await params;
 
@@ -36,7 +36,7 @@ export default async function ViewBlock( { params }: Props ) {
           <div>
             <form action={deleteBlock}>
               <input type="hidden" name="id" value={block.id} />
-                <CodeEditor code={block.code} />
+                <CodeEditor code={block.code} readOnly={true} />
               <div className="flex justify-evenly py-3">
                 <button 
                   type="submit"
