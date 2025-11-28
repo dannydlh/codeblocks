@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import { deleteBlock } from "@/api";
 import { cookies } from "next/headers";
 import { CodeEditor } from "@/components/ui/CodeEditor";
+import ConfirmDeleteButton from "@/components/ui/ConfirmDeleteButton";
 
 type Props = {
   params: {
@@ -38,11 +39,12 @@ export default async function ViewBlock( { params }: Props ) {
               <input type="hidden" name="id" value={block.id} />
                 <CodeEditor code={block.code} readOnly={true} />
               <div className="flex justify-evenly py-3">
-                <button 
+{/*                 <button 
                   type="submit"
                   className="cursor-pointer inline-block px-10 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition">
                     Delete
-                </button>
+                </button> */}
+                <ConfirmDeleteButton />
                 <a href={`/blocks/${id}/edit`} className="inline-block px-10 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">Edit</a>
               </div>
             </form>
